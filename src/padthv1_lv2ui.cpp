@@ -277,7 +277,7 @@ static LV2UI_Handle padthv1_lv2ui_windows_instantiate (
 		= new padthv1widget_lv2(pSynth, controller, write_function);
 	if (resize && resize->handle) {
 		const QSize& hint = pWidget->sizeHint();
-		resize->ui_resize(resize->handle, hint.width(), hint.height());
+		resize->ui_resize(resize->handle, UI_WINDOWS_RECOMMENDED_WIDTH, UI_WINDOWS_RECOMMENDED_HEIGHT);
 	}
 	winid = pWidget->winId();
 	pWidget->windowHandle()->setParent(QWindow::fromWinId(parent));

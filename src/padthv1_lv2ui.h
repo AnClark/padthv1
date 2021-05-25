@@ -39,6 +39,11 @@
 
 #ifdef CONFIG_LV2_UI_WINDOWS
 #define PADTHV1_LV2UI_WINDOWS_URI PADTHV1_LV2_PREFIX "ui_windows"
+
+// Polyfill for windows size (minimal suitable size)
+// Qt cannot determine the right window size on Windows.
+#define UI_WINDOWS_RECOMMENDED_WIDTH 1380
+#define UI_WINDOWS_RECOMMENDED_HEIGHT 800
 #endif
 
 #ifdef CONFIG_LV2_UI_EXTERNAL
