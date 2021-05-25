@@ -29,9 +29,16 @@
 
 #define PADTHV1_LV2UI_URI PADTHV1_LV2_PREFIX "ui"
 
-#ifdef CONFIG_LV2_UI_X11
+#if defined(CONFIG_LV2_UI_X11) || defined(CONFIG_LV2_UI_WINDOWS)
 #include <QWindow>
+#endif
+
+#ifdef CONFIG_LV2_UI_X11
 #define PADTHV1_LV2UI_X11_URI PADTHV1_LV2_PREFIX "ui_x11"
+#endif
+
+#ifdef CONFIG_LV2_UI_WINDOWS
+#define PADTHV1_LV2UI_WINDOWS_URI PADTHV1_LV2_PREFIX "ui_windows"
 #endif
 
 #ifdef CONFIG_LV2_UI_EXTERNAL

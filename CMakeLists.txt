@@ -63,6 +63,8 @@ set (CONFIG_LIBDIR  "${CONFIG_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 set (CONFIG_DATADIR "${CONFIG_PREFIX}/${CMAKE_INSTALL_DATADIR}")
 set (CONFIG_MANDIR  "${CONFIG_PREFIX}/${CMAKE_INSTALL_MANDIR}")
 
+# Windows install target path.
+set (CONFIG_WINDOWS_LV2_PATH "$ENV{SYSTEMDRIVE}/Program Files/Common Files/LV2")
 
 # Enable JACK standalone build.
 option (CONFIG_JACK "Enable JACK stand-alone build (default=yes)" 1)
@@ -80,6 +82,8 @@ option (CONFIG_ALSA_MIDI "Enable ALSA MIDI support (default=yes)" 1)
 option (CONFIG_LV2 "Enable LV2 plug-in build (default=yes)" 1)
 
 option (CONFIG_LV2_UI_X11 "Enable LV2 plug-in X11 UI support (default=yes)" 1)
+
+option (CONFIG_LV2_UI_WINDOWS "Enable LV2 plug-in Windows UI support (default=yes)" 1)
 
 option (CONFIG_LV2_UI_EXTERNAL "Enable LV2 plug-in External UI support (default=yes)" 1)
 
@@ -250,6 +254,7 @@ if (CONFIG_LV2)
     endif ()
     if (NOT CONFIG_LV2_UI)
       set (CONFIG_LV2_UI_X11 0)
+      set (CONFIG_LV2_UI_WINDOWS 0)
       set (CONFIG_LV2_UI_EXTERNAL 0)
       set (CONFIG_LV2_UI_IDLE 0)
       set (CONFIG_LV2_UI_SHOW 0)
@@ -268,6 +273,7 @@ if (CONFIG_LV2)
   include_directories (${LV2_INCLUDES})
 else ()
   set (CONFIG_LV2_UI_X11 0)
+  set (CONFIG_LV2_UI_WINDOWS 0)
   set (CONFIG_LV2_UI_EXTERNAL 0)
   set (CONFIG_LV2_UI_IDLE 0)
   set (CONFIG_LV2_UI_SHOW 0)
@@ -325,6 +331,7 @@ show_option ("  JACK MIDI support  . . . . . . . . . . . . . . . ." CONFIG_JACK_
 show_option ("  ALSA MIDI support  . . . . . . . . . . . . . . . ." CONFIG_ALSA_MIDI)
 show_option ("  LV2 plug-in build  . . . . . . . . . . . . . . . ." CONFIG_LV2)
 show_option ("  LV2 plug-in X11 UI support   . . . . . . . . . . ." CONFIG_LV2_UI_X11)
+show_option ("  LV2 plug-in Windows UI support   . . . . . . . . ." CONFIG_LV2_UI_WINDOWS)
 show_option ("  LV2 plug-in External UI support  . . . . . . . . ." CONFIG_LV2_UI_EXTERNAL)
 show_option ("  LV2 plug-in UI Idle interface support  . . . . . ." CONFIG_LV2_UI_IDLE)
 show_option ("  LV2 plug-in UI Show interface support  . . . . . ." CONFIG_LV2_UI_SHOW)
