@@ -165,6 +165,16 @@ if (CONFIG_FFTW3)
   target_link_libraries (${PROJECT_NAME} PRIVATE PkgConfig::FFTW3)
 endif ()
 
+# Generate LV2 TTL files from template
+macro (generate_ttl)
+  set (LIB_EXT "${ARGV0}")
+  set (UI_TYPE "${ARGV1}")
+  set (UI_CLASS "${ARGV2}")
+  configure_file (${PROJECT_NAME}.lv2/manifest.ttl.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.ttl @ONLY NEWLINE_STYLE UNIX)
+  configure_file (${PROJECT_NAME}.lv2/${PROJECT_NAME}_ui.ttl.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_ui.ttl @ONLY NEWLINE_STYLE UNIX)
+  configure_file (${PROJECT_NAME}.lv2/${PROJECT_NAME}.ttl.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.ttl @ONLY NEWLINE_STYLE UNIX)
+endmacro()
+
 if (CONFIG_LV2)
   set_target_properties (${PROJECT_NAME}_lv2 PROPERTIES CXX_STANDARD 17)
   target_link_libraries (${PROJECT_NAME}_lv2 PRIVATE ${PROJECT_NAME}_ui)
@@ -184,9 +194,10 @@ if (CONFIG_LV2)
     install (FILES ${CMAKE_CURRENT_BINARY_DIR}/lib${PROJECT_NAME}_lv2.so
       RENAME ${PROJECT_NAME}.so
       DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}.lv2)
-    install (FILES ${PROJECT_NAME}.lv2/manifest.ttl
-      ${PROJECT_NAME}.lv2/${PROJECT_NAME}.ttl
-      ${PROJECT_NAME}.lv2/${PROJECT_NAME}_ui.ttl
+    generate_ttl ("so" "ui_x11" "X11UI")
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.ttl
+      ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.ttl
+      ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_ui.ttl
       DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}.lv2)
   elseif (WIN32)
     if (NOT CONFIG_DEBUG)
@@ -197,9 +208,10 @@ if (CONFIG_LV2)
     install (FILES ${CMAKE_CURRENT_BINARY_DIR}/lib${PROJECT_NAME}_lv2.dll
       RENAME ${PROJECT_NAME}.dll
       DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}.lv2)
-    install (FILES ${PROJECT_NAME}_windows.lv2/manifest.ttl
-      ${PROJECT_NAME}_windows.lv2/${PROJECT_NAME}.ttl
-      ${PROJECT_NAME}_windows.lv2/${PROJECT_NAME}_ui.ttl
+    generate_ttl ("dll" "ui_windows" "WindowsUI")
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.ttl
+      ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.ttl
+      ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_ui.ttl
       DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}.lv2)
   endif ()
 endif ()

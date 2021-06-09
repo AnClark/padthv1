@@ -3,5 +3,5 @@
 
 <http://padthv1.sourceforge.net/lv2>
 	a lv2:Plugin, lv2:InstrumentPlugin ;
-	lv2:binary <padthv1.dll> ;
+	lv2:binary <padthv1.@LIB_EXT@> ;
 	rdfs:seeAlso <padthv1.ttl>, <padthv1_ui.ttl> .
