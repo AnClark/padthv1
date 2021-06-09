@@ -361,7 +361,7 @@ void padthv1_jack::open ( const char *client_name )
 #endif	// CONFIG_ALSA_MIDI
 
 	// setup any local, initial buffers...
-	padthv1::setBufferSize(::jack_get_buffer_size(m_client));
+	padthv1::setBufferSize(::jack_get_buffer_size(m_client) << 2);
 
 	::jack_set_buffer_size_callback(m_client,
 		padthv1_jack_buffer_size, this);
@@ -732,6 +732,9 @@ padthv1_jack_application::padthv1_jack_application ( int& argc, char **argv )
 	}
 
 	if (m_bGui) {
+	#if defined(Q_OS_LINUX)
+		::setenv("QT_QPA_PLATFORM", "xcb", 0);
+	#endif
 	#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
 	#if QT_VERSION <  QT_VERSION_CHECK(6, 0, 0)
 		QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
