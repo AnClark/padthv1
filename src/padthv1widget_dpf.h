@@ -25,11 +25,13 @@
 #define __padthv1widget_dpf_h
 
 #include "padthv1widget.h"
-#include "padthv1_dpfui.h"
-#include "DistrhoPlugin.hpp"
 
 // Forward decls.
 class padthv1_dpf;
+class padthv1_dpfui;
+namespace DISTRHO {
+	class PadthV1PluginUI;
+}
 
 //-------------------------------------------------------------------------
 // padthv1widget_lv2 - decl.
@@ -40,17 +42,20 @@ class padthv1widget_dpf : public padthv1widget
 public:
 
 	// Constructor.
-	padthv1widget_dpf(padthv1_dpf *pSynth);
+	padthv1widget_dpf(padthv1_dpf *pSynth, DISTRHO::PadthV1PluginUI *pPluginUiInterface);
 
 	// Destructor.
 	~padthv1widget_dpf();
+
+	// Param method. (Host -> UI)
+	void setUIParamValue(padthv1::ParamIndex paramIndex, float value);
 
 protected:
 
 	// Synth engine accessor.
 	padthv1_ui *ui_instance() const;
 
-	// Param methods.
+	// Param method. (UI -> Host)
 	void updateParam(padthv1::ParamIndex index, float fValue) const;
 
 	// Close event handler.
@@ -59,8 +64,7 @@ protected:
 private:
 
 	// Instance variables.
-	padthv1_dpfui *m_pSynthUi;  // 
-    DISTRHO::Plugin *m_pPlugin;          // DPF plugin instance
+	padthv1_dpfui *m_pSynthUi;  // synth engine accessor
 };
 
 #endif  // __padthv1widget_dpf_h

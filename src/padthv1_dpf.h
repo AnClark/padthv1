@@ -113,6 +113,8 @@ public:
 	PadthV1Plugin();
 	~PadthV1Plugin();
 
+	padthv1_dpf *getSynthesizer();
+
 protected:
 	// ----------------------------------------------------------------------------------------------------------------
 	// Information
