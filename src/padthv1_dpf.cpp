@@ -248,6 +248,12 @@ PadthV1Plugin::~PadthV1Plugin()
 }
 
 
+padthv1_dpf* PadthV1Plugin::getSynthesizer()
+{
+	return &(*fSynthesizer);	// Unique pointer -> standard pointer
+}
+
+
 void PadthV1Plugin::initParameter(uint32_t index, Parameter& parameter)
 {
 	padthv1::ParamIndex currentParam = (padthv1::ParamIndex)index;

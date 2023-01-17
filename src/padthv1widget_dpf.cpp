@@ -22,6 +22,7 @@
 #include "padthv1widget_dpf.h"
 
 #include "padthv1_dpf.h"
+#include "padthv1_dpfui.h"
 
 #include <QApplication>
 #include <QFileInfo>
@@ -52,7 +53,7 @@
 // padthv1widget_lv2 - impl.
 //
 
-padthv1widget_dpf::padthv1widget_dpf ( padthv1_dpf *pSynth )
+padthv1widget_dpf::padthv1widget_dpf ( padthv1_dpf *pSynth, DISTRHO::PadthV1PluginUI *pPluginUiInterface )
 	: padthv1widget()
 {
 	// Check whether under a dedicated application instance...
@@ -79,12 +80,14 @@ padthv1widget_dpf::padthv1widget_dpf ( padthv1_dpf *pSynth )
 	}
 
 	// Initialize (user) interface stuff...
-	m_pSynthUi = new padthv1_dpfui(pSynth);
+	m_pSynthUi = new padthv1_dpfui(pSynth, pPluginUiInterface);
 
 	// Initialise preset stuff...
 	clearPreset();
 
 	// Initial update, always...
+	updateSample();
+
 	//resetParamValues();
 	resetParamKnobs();
 
@@ -112,9 +115,18 @@ void padthv1widget_dpf::closeEvent ( QCloseEvent *pCloseEvent )
 	padthv1widget::closeEvent(pCloseEvent);
 }
 
-// Param method.
+// Param method: Host -> UI.
+// Render host's parameter values on UI. This is called by DPF UI's paramChanged() method.
+void padthv1widget_dpf::setUIParamValue(padthv1::ParamIndex paramIndex, float value)
+{
+	this->setParamValue(paramIndex, value);
+}
+
+// Param method: UI -> Host.
+// This method sets host's param values from UI side.
 void padthv1widget_dpf::updateParam (
 	padthv1::ParamIndex index, float fValue ) const
 {
+	m_pSynthUi->setParamValue(index, fValue);
 	m_pSynthUi->write_function(index, fValue);
 }

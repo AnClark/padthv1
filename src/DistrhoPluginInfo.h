@@ -48,14 +48,18 @@
 #define DISTRHO_PLUGIN_URI "https://github.com/rncbc/padthv1"
 #define DISTRHO_PLUGIN_CLAP_ID "rncbc.padthv1"
 
-// Currently set UI-related params to 0
-#define DISTRHO_PLUGIN_HAS_UI 0
-#define DISTRHO_PLUGIN_HAS_EMBED_UI 0
-#define DISTRHO_PLUGIN_HAS_EXTERNAL_UI 0
+#define DISTRHO_PLUGIN_HAS_UI 1
+#define DISTRHO_PLUGIN_HAS_EMBED_UI 1
+#define DISTRHO_PLUGIN_HAS_EXTERNAL_UI 1
 #define DISTRHO_PLUGIN_IS_RT_SAFE 1
 #define DISTRHO_PLUGIN_IS_SYNTH 1
 #define DISTRHO_PLUGIN_NUM_INPUTS 2
 #define DISTRHO_PLUGIN_NUM_OUTPUTS 2
 #define DISTRHO_UI_USER_RESIZABLE 1
+
+// Allow UI to access DSP side directly.
+// This is discouraged by DPF, but padthv1 indeed need this,
+// because padthv1 UI accesses synth engine, see padthv1widget.cpp.
+#define DISTRHO_PLUGIN_WANT_DIRECT_ACCESS 1
 
 #endif // DISTRHO_PLUGIN_INFO_H_INCLUDED

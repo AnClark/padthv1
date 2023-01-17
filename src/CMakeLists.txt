@@ -161,12 +161,13 @@ if (CONFIG_DPF)
 
   dpf_add_plugin (${PROJECT_NAME}_dpf
     TARGETS ${DPF_PLUGIN_TYPES}
-    #UI_TYPE external
+    UI_TYPE external
     FILES_DSP
       padthv1_dpf.cpp
-    #FILES_UI
-    #  padthv1_dpfui.cpp
-    #  padthv1widget_dpf.cpp
+    FILES_UI
+      padthv1_dpfui.cpp
+      padthv1widget_dpf.cpp
+    MONOLITHIC
   )
 endif ()
 
@@ -290,5 +291,5 @@ if (CONFIG_DPF)
   target_link_libraries (${PROJECT_NAME}_dpf PRIVATE ${PROJECT_NAME}_ui)
 
   target_include_directories (${PROJECT_NAME}_dpf-dsp PRIVATE ${Qt6Widgets_INCLUDE_DIRS})
-  #target_include_directories(${PROJECT_NAME}_dpf-ui PRIVATE ${Qt6Widgets_INCLUDE_DIRS})
+  target_include_directories(${PROJECT_NAME}_dpf-ui PRIVATE ${Qt6Widgets_INCLUDE_DIRS})
 endif ()
