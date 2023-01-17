@@ -64,7 +64,11 @@ namespace padthv1_param
 	float paramSafeValue(padthv1::ParamIndex index, float fValue);
 	float paramValue(padthv1::ParamIndex index, float fScale);
 	float paramScale(padthv1::ParamIndex index, float fValue);
+	float paramMinValue(padthv1::ParamIndex index);
+	float paramMaxValue(padthv1::ParamIndex index);
 	bool paramFloat(padthv1::ParamIndex index);
+	bool paramBool(padthv1::ParamIndex index);
+	bool paramInt(padthv1::ParamIndex index);
 
 	// Load/save and convert canonical/absolute filename helpers.
 	QString loadFilename(const QString& sFilename);

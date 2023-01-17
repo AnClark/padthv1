@@ -208,10 +208,29 @@ float padthv1_param::paramScale ( padthv1::ParamIndex index, float fValue )
 		return fScale;
 }
 
+float padthv1_param::paramMinValue(padthv1::ParamIndex index)
+{
+	return padthv1_params[index].min;
+}
+
+float padthv1_param::paramMaxValue(padthv1::ParamIndex index)
+{
+	return padthv1_params[index].max;
+}
 
 bool padthv1_param::paramFloat ( padthv1::ParamIndex index )
 {
 	return (padthv1_params[index].type == PARAM_FLOAT);
+}
+
+bool padthv1_param::paramBool ( padthv1::ParamIndex index )
+{
+	return (padthv1_params[index].type == PARAM_BOOL);
+}
+
+bool padthv1_param::paramInt ( padthv1::ParamIndex index )
+{
+	return (padthv1_params[index].type == PARAM_INT);
 }
 
 
