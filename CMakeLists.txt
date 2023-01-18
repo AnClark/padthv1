@@ -113,6 +113,15 @@ option (CONFIG_DPF_LV2 "Enable LV2 plug-in support (via DPF) (default=no)" 0)
 
 option (CONFIG_DPF_CLAP "Enable CLAP plug-in support (via DPF) (default=yes)" 1)
 
+if (WIN32)
+  # Windows install target pathes.
+  set (CONFIG_WINDOWS_VST_PATH "$ENV{SYSTEMDRIVE}/Program Files/Steinberg/VstPlugins" CACHE STRING "Specify Windows VST install path")
+
+  set (CONFIG_WINDOWS_VST3_PATH "$ENV{SYSTEMDRIVE}/Program Files/Common Files/VST3" CACHE STRING "Specify Windows VST3 install path")
+
+  set (CONFIG_WINDOWS_CLAP_PATH "$ENV{SYSTEMDRIVE}/Program Files/Common Files/CLAP" CACHE STRING "Specify Windows CLAP install path")
+endif ()
+
 # Enable liblo availability.
 option (CONFIG_LIBLO "Enable liblo interface (default=yes)" 1)
 
