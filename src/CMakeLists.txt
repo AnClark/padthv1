@@ -317,52 +317,9 @@ if (CONFIG_DPF)
     dpf__determine_vst3_package_architecture(VST3_ARCH)
     set (DPF_VST3_BINARY ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.vst3/Contents/${VST3_ARCH}-linux/${PROJECT_NAME}_dpf.so)
 
-    if (NOT CONFIG_DEBUG)
-      if (CONFIG_DPF_VST2)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst2  POST_BUILD
-          COMMAND strip ${DPF_VST2_BINARY})
-      endif ()
-      if (CONFIG_DPF_VST3)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst3  POST_BUILD
-          COMMAND strip ${DPF_VST3_BINARY})
-      endif ()
-      if (CONFIG_DPF_CLAP)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-clap  POST_BUILD
-          COMMAND strip ${DPF_CLAP_BINARY})
-      endif ()
-      if (CONFIG_DPF_LV2)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-lv2  POST_BUILD
-          COMMAND strip ${DPF_LV2_BINARY})
-      endif ()
-    endif ()
-
-    if (CONFIG_DPF_VST2)
-      install (FILES ${DPF_VST2_BINARY}
-        RENAME ${PROJECT_NAME}-vst2.so
-        DESTINATION ${CONFIG_VSTDIR})
-    endif ()
-
-    if (CONFIG_DPF_VST3)
-      install (FILES ${DPF_VST3_BINARY}
-        RENAME ${PROJECT_NAME}.vst3
-        DESTINATION ${CONFIG_VST3DIR}/${PROJECT_NAME}.vst3/Contents/${VST3_ARCH}-linux)
-    endif ()
-
-    if (CONFIG_DPF_CLAP)
-      install (FILES ${DPF_CLAP_BINARY}
-        RENAME ${PROJECT_NAME}.clap
-        DESTINATION ${CONFIG_CLAPDIR})
-    endif ()
-
-    if (CONFIG_DPF_LV2)   # Explicitly separated from the default LV2 build
-      install (FILES ${DPF_LV2_BINARY}
-        ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/manifest.ttl
-        ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/${PROJECT_NAME}_dpf.ttl
-        DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}_dpf.lv2)
-    endif ()
-  endif ()
-
-  if (WIN32)
+    set (VST2_SUFFIX .so)
+    set (VST3_SUFFIX .so)
+  elseif (WIN32)
     set (CONFIG_VSTDIR ${CONFIG_WINDOWS_VST_PATH})
     set (CONFIG_VST3DIR ${CONFIG_WINDOWS_VST3_PATH})
     set (CONFIG_CLAPDIR ${CONFIG_WINDOWS_CLAP_PATH})
@@ -374,48 +331,51 @@ if (CONFIG_DPF)
     dpf__determine_vst3_package_architecture(VST3_ARCH)
     set (DPF_VST3_BINARY ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.vst3/Contents/${VST3_ARCH}-win/${PROJECT_NAME}_dpf.vst3)
 
-    if (NOT CONFIG_DEBUG)
-      if (CONFIG_DPF_VST2)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst2  POST_BUILD
-          COMMAND strip ${DPF_VST2_BINARY})
-      endif ()
-      if (CONFIG_DPF_VST3)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst3  POST_BUILD
-          COMMAND strip ${DPF_VST3_BINARY})
-      endif ()
-      if (CONFIG_DPF_CLAP)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-clap  POST_BUILD
-          COMMAND strip ${DPF_CLAP_BINARY})
-      endif ()
-      if (CONFIG_DPF_LV2)
-        add_custom_command(TARGET ${PROJECT_NAME}_dpf-lv2  POST_BUILD
-          COMMAND strip ${DPF_LV2_BINARY})
-      endif ()
-    endif ()
+    set (VST2_SUFFIX .dll)
+    set (VST3_SUFFIX .vst3)
+  endif ()
 
+  if (NOT CONFIG_DEBUG)
     if (CONFIG_DPF_VST2)
-      install (FILES ${DPF_VST2_BINARY}
-        RENAME ${PROJECT_NAME}-vst2.dll
-        DESTINATION ${CONFIG_VSTDIR})
+      add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst2  POST_BUILD
+        COMMAND strip ${DPF_VST2_BINARY})
     endif ()
-
     if (CONFIG_DPF_VST3)
-      install (FILES ${DPF_VST3_BINARY}
-        RENAME ${PROJECT_NAME}.vst3
-        DESTINATION ${CONFIG_VST3DIR}/${PROJECT_NAME}.vst3/Contents/${VST3_ARCH}-win)
+      add_custom_command(TARGET ${PROJECT_NAME}_dpf-vst3  POST_BUILD
+        COMMAND strip ${DPF_VST3_BINARY})
     endif ()
-
     if (CONFIG_DPF_CLAP)
-      install (FILES ${DPF_CLAP_BINARY}
-        RENAME ${PROJECT_NAME}.clap
-        DESTINATION ${CONFIG_CLAPDIR})
+      add_custom_command(TARGET ${PROJECT_NAME}_dpf-clap  POST_BUILD
+        COMMAND strip ${DPF_CLAP_BINARY})
     endif ()
+    if (CONFIG_DPF_LV2)
+      add_custom_command(TARGET ${PROJECT_NAME}_dpf-lv2  POST_BUILD
+        COMMAND strip ${DPF_LV2_BINARY})
+    endif ()
+  endif ()
 
-    if (CONFIG_DPF_LV2)   # Explicitly separated from the default LV2 build
-      install (FILES ${DPF_LV2_BINARY}
-        ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/manifest.ttl
-        ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/${PROJECT_NAME}_dpf.ttl
-        DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}_dpf.lv2)
-    endif ()
+  if (CONFIG_DPF_VST2)
+    install (FILES ${DPF_VST2_BINARY}
+      RENAME ${PROJECT_NAME}-vst2${VST2_SUFFIX}
+      DESTINATION ${CONFIG_VSTDIR})
+  endif ()
+
+  if (CONFIG_DPF_VST3)
+    install (FILES ${DPF_VST3_BINARY}
+      RENAME ${PROJECT_NAME}${VST3_SUFFIX}
+      DESTINATION ${CONFIG_VST3DIR}/${PROJECT_NAME}.vst3/Contents/${VST3_ARCH}-linux)
+  endif ()
+
+  if (CONFIG_DPF_CLAP)
+    install (FILES ${DPF_CLAP_BINARY}
+      RENAME ${PROJECT_NAME}.clap
+      DESTINATION ${CONFIG_CLAPDIR})
+  endif ()
+
+  if (CONFIG_DPF_LV2)   # Explicitly separated from the default LV2 build
+    install (FILES ${DPF_LV2_BINARY}
+      ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/manifest.ttl
+      ${DPF_BINARY_DIR}/${PROJECT_NAME}_dpf.lv2/${PROJECT_NAME}_dpf.ttl
+      DESTINATION ${CONFIG_LV2DIR}/${PROJECT_NAME}_dpf.lv2)
   endif ()
 endif ()
