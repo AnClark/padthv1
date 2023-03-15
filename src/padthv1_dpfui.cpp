@@ -48,7 +48,7 @@
 START_NAMESPACE_DISTRHO
 
 PadthV1PluginUI::PadthV1PluginUI()
-	: UI(BASE_UI_HEIGHT, BASE_UI_WIDTH), fWidget(nullptr)
+	: UI(), fWidget(nullptr)
 {
 	// Print out DPF standalone mode state.
 	const bool standalone = isStandalone();
